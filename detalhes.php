@@ -16,6 +16,7 @@ if(isset($_GET['api_url'])){
 
 <!DOCTYPE html>
 <html>
+
 <head>
 
     <title>Detalhes</title>
@@ -70,6 +71,30 @@ if(isset($_GET['api_url'])){
                         <?= $character['url'] ?>
                     </p>
 
+                    <div class="mt-4">
+
+                        <?php if(isset($_SESSION['user'])): ?>
+
+                            <button class="btn btn-success"
+                                    onclick="salvarPersonagem()">
+
+                                Salvar Personagem
+
+                            </button>
+
+                        <?php else: ?>
+
+                            <a href="login.php"
+                               class="btn btn-warning">
+
+                                Faça login para salvar
+
+                            </a>
+
+                        <?php endif; ?>
+
+                    </div>
+
                 </div>
 
             </div>
@@ -85,6 +110,48 @@ if(isset($_GET['api_url'])){
     <?php endif; ?>
 
 </div>
+
+<script>
+
+function salvarPersonagem(){
+
+    console.log("clicou");
+
+    const formData = new FormData();
+
+    formData.append("name", "<?= $character['name'] ?>");
+    formData.append("species", "<?= $character['species'] ?>");
+    formData.append("image", "<?= $character['image'] ?>");
+    formData.append("url", "<?= $character['url'] ?>");
+
+    fetch("api/salvar.php", {
+
+        method: "POST",
+        body: formData
+
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        console.log(data);
+
+        alert(data.message);
+
+    })
+
+    .catch(error => {
+
+        console.error(error);
+
+        alert("Erro ao salvar personagem.");
+
+    });
+
+}
+
+</script>
 
 </body>
 </html>
