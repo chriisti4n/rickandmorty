@@ -27,6 +27,8 @@ try {
 
     $name = $_POST['name'] ?? '';
     $species = $_POST['species'] ?? '';
+    $gender = $_POST['gender'] ?? '';
+    $location = $_POST['location'] ?? '';
     $image = $_POST['image'] ?? '';
     $url = $_POST['url'] ?? '';
 
@@ -74,16 +76,20 @@ try {
             user_id,
             name,
             species,
+            gender,
+            location,
             image,
             url
         )
-        VALUES (?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
     ");
 
     $success = $stmt->execute([
         $userId,
         $name,
         $species,
+        $gender,
+        $location,
         $image,
         $url
     ]);

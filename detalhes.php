@@ -1,7 +1,13 @@
 <?php
+
 session_start();
 
+require_once 'config/database.php';
+
+$db = Database::getConnection();
+
 $character = null;
+$fromApi = false;
 
 if(isset($_GET['api_url'])){
 
@@ -11,7 +17,23 @@ if(isset($_GET['api_url'])){
 
     $character = json_decode($json, true);
 
+    $fromApi = true;
+
+} elseif(isset($_GET['id'])){
+
+    $stmt = $db->prepare("
+        SELECT *
+        FROM characters
+        WHERE id = ?
+    ");
+
+    $stmt->execute([
+        $_GET['id']
+    ]);
+
+    $character = $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -47,24 +69,55 @@ if(isset($_GET['api_url'])){
 
                 <div class="col-md-8">
 
-                    <h2>
+                    <h2 id="nameText">
                         <?= $character['name'] ?>
                     </h2>
 
-                    <p>
+                    <input type="text"
+                           id="nameInput"
+                           class="form-control d-none mb-3"
+                           value="<?= $character['name'] ?>">
+
+                    <p id="speciesText">
                         <strong>Espécie:</strong>
                         <?= $character['species'] ?>
                     </p>
 
-                    <p>
+                    <input type="text"
+                           id="speciesInput"
+                           class="form-control d-none mb-3"
+                           value="<?= $character['species'] ?>">
+
+                    <p id="genderText">
                         <strong>Gênero:</strong>
                         <?= $character['gender'] ?>
                     </p>
 
-                    <p>
+                    <input type="text"
+                           id="genderInput"
+                           class="form-control d-none mb-3"
+                           value="<?= $character['gender'] ?>">
+
+                    <p id="locationText">
+
                         <strong>Localização:</strong>
-                        <?= $character['location']['name'] ?>
+
+                        <?php if($fromApi): ?>
+
+                            <?= $character['location']['name'] ?>
+
+                        <?php else: ?>
+
+                            <?= $character['location'] ?>
+
+                        <?php endif; ?>
+
                     </p>
+
+                    <input type="text"
+                           id="locationInput"
+                           class="form-control d-none mb-3"
+                           value="<?php if($fromApi): ?><?= $character['location']['name'] ?><?php else: ?><?= $character['location'] ?><?php endif; ?>">
 
                     <p>
                         <strong>URL:</strong>
@@ -73,23 +126,43 @@ if(isset($_GET['api_url'])){
 
                     <div class="mt-4">
 
-                        <?php if(isset($_SESSION['user'])): ?>
+                        <?php if($fromApi): ?>
 
-                            <button class="btn btn-success"
-                                    onclick="salvarPersonagem()">
+                            <?php if(isset($_SESSION['user'])): ?>
 
-                                Salvar Personagem
+                                <button class="btn btn-success"
+                                        onclick="salvarPersonagem()">
 
-                            </button>
+                                    Salvar Personagem
+
+                                </button>
+
+                            <?php else: ?>
+
+                                <a href="login.php"
+                                   class="btn btn-warning">
+
+                                    Faça login para salvar
+
+                                </a>
+
+                            <?php endif; ?>
 
                         <?php else: ?>
 
-                            <a href="login.php"
-                               class="btn btn-warning">
+                            <button class="btn btn-primary me-2"
+                                    onclick="ativarEdicao()">
 
-                                Faça login para salvar
+                                Editar
 
-                            </a>
+                            </button>
+
+                            <button class="btn btn-danger"
+                                    onclick="deletarPersonagem(<?= $character['id'] ?>)">
+
+                                Excluir Personagem
+
+                            </button>
 
                         <?php endif; ?>
 
@@ -111,16 +184,18 @@ if(isset($_GET['api_url'])){
 
 </div>
 
+<?php if($fromApi): ?>
+
 <script>
 
 function salvarPersonagem(){
-
-    console.log("clicou");
 
     const formData = new FormData();
 
     formData.append("name", "<?= $character['name'] ?>");
     formData.append("species", "<?= $character['species'] ?>");
+    formData.append("gender", "<?= $character['gender'] ?>");
+    formData.append("location", "<?= $character['location']['name'] ?>");
     formData.append("image", "<?= $character['image'] ?>");
     formData.append("url", "<?= $character['url'] ?>");
 
@@ -135,8 +210,6 @@ function salvarPersonagem(){
 
     .then(data => {
 
-        console.log(data);
-
         alert(data.message);
 
     })
@@ -146,6 +219,132 @@ function salvarPersonagem(){
         console.error(error);
 
         alert("Erro ao salvar personagem.");
+
+    });
+
+}
+
+</script>
+
+<?php endif; ?>
+
+<script>
+
+function deletarPersonagem(id){
+
+    if(!confirm("Deseja excluir este personagem?")){
+        return;
+    }
+
+    const formData = new FormData();
+
+    formData.append("id", id);
+
+    fetch("api/deletar.php", {
+
+        method: "POST",
+        body: formData
+
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        alert(data.message);
+
+        if(data.success){
+
+            window.location.href = "personagens.php";
+
+        }
+
+    })
+
+    .catch(error => {
+
+        console.error(error);
+
+        alert("Erro ao excluir personagem.");
+
+    });
+
+}
+
+function ativarEdicao(){
+
+    document.getElementById("nameText").classList.add("d-none");
+    document.getElementById("speciesText").classList.add("d-none");
+    document.getElementById("genderText").classList.add("d-none");
+    document.getElementById("locationText").classList.add("d-none");
+
+    document.getElementById("nameInput").classList.remove("d-none");
+    document.getElementById("speciesInput").classList.remove("d-none");
+    document.getElementById("genderInput").classList.remove("d-none");
+    document.getElementById("locationInput").classList.remove("d-none");
+
+    event.target.outerHTML = `
+        <button class="btn btn-success me-2"
+                onclick="salvarEdicao(<?= $character['id'] ?>)">
+
+            Salvar Alterações
+
+        </button>
+    `;
+}
+
+function salvarEdicao(id){
+
+    const formData = new FormData();
+
+    formData.append("id", id);
+
+    formData.append(
+        "name",
+        document.getElementById("nameInput").value
+    );
+
+    formData.append(
+        "species",
+        document.getElementById("speciesInput").value
+    );
+
+    formData.append(
+        "gender",
+        document.getElementById("genderInput").value
+    );
+
+    formData.append(
+        "location",
+        document.getElementById("locationInput").value
+    );
+
+    fetch("api/editar.php", {
+
+        method: "POST",
+        body: formData
+
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        alert(data.message);
+
+        if(data.success){
+
+            location.reload();
+
+        }
+
+    })
+
+    .catch(error => {
+
+        console.error(error);
+
+        alert("Erro ao editar personagem.");
 
     });
 
