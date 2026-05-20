@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
 
     <title>Home</title>
@@ -17,9 +18,18 @@
 
 <div class="container mt-4">
 
-    <h2 class="mb-4">
-        Personagens
-    </h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2>
+            Personagens
+        </h2>
+
+        <input type="text"
+               id="searchInput"
+               class="form-control w-25"
+               placeholder="Pesquisar personagem...">
+
+    </div>
 
     <div class="row" id="characters"></div>
 
@@ -39,16 +49,16 @@ fetch("https://rickandmortyapi.com/api/character")
 
         container.innerHTML += `
         
-            <div class="col-md-3 mb-4">
+            <div class="col-md-3 mb-4 character-card">
 
-                <div class="card bg-secondary text-white h-100">
+                <div class="card bg-secondary text-white h-100 shadow border-0">
 
                     <img src="${character.image}" 
                          class="card-img-top">
 
                     <div class="card-body d-flex flex-column text-center">
 
-                        <h5 class="card-title">
+                        <h5 class="card-title character-name">
                             ${character.name}
                         </h5>
 
@@ -57,7 +67,8 @@ fetch("https://rickandmortyapi.com/api/character")
                         </p>
 
                         <a href="detalhes.php?api_url=${character.url}"
-                           class="btn btn-primary mt-auto">
+                           class="btn btn-primary mt-auto"
+                           onclick="showLoading()">
 
                             Ver detalhes
 
@@ -73,7 +84,47 @@ fetch("https://rickandmortyapi.com/api/character")
 
     });
 
+    const searchInput =
+        document.getElementById("searchInput");
+
+    searchInput.addEventListener("keyup", function(){
+
+        const value =
+            this.value.toLowerCase();
+
+        const cards =
+            document.querySelectorAll(".character-card");
+
+        cards.forEach(card => {
+
+            const name =
+                card.querySelector(".character-name")
+                    .innerText
+                    .toLowerCase();
+
+            if(name.includes(value)){
+
+                card.style.display = "block";
+
+            } else {
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+    });
+
 })
+
+.catch(error => {
+
+    console.error(error);
+
+    showToast("Erro ao carregar personagens.");
+
+});
 
 </script>
 

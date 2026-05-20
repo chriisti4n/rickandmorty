@@ -8,6 +8,7 @@ if(!isset($_SESSION['user'])){
 
     header("Location: login.php");
     exit;
+
 }
 
 $db = Database::getConnection();
@@ -45,26 +46,35 @@ $characters = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="container mt-5">
 
-    <h1 class="mb-4">
-        Meus Personagens
-    </h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-    <div class="row">
+        <h1>
+            Meus Personagens
+        </h1>
+
+        <input type="text"
+               id="searchInput"
+               class="form-control w-25"
+               placeholder="Pesquisar personagem...">
+
+    </div>
+
+    <div class="row" id="charactersContainer">
 
         <?php if(count($characters) > 0): ?>
 
             <?php foreach($characters as $character): ?>
 
-                <div class="col-md-3 mb-4">
+                <div class="col-md-3 mb-4 character-card">
 
-                    <div class="card bg-secondary text-white h-100">
+                    <div class="card bg-secondary text-white h-100 shadow border-0">
 
                         <img src="<?= $character['image'] ?>"
                              class="card-img-top">
 
                         <div class="card-body d-flex flex-column text-center">
 
-                            <h5>
+                            <h5 class="character-name">
                                 <?= $character['name'] ?>
                             </h5>
 
@@ -73,7 +83,8 @@ $characters = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </p>
 
                             <a href="detalhes.php?id=<?= $character['id'] ?>"
-                               class="btn btn-primary mt-auto">
+                               class="btn btn-primary mt-auto"
+                               onclick="showLoading()">
 
                                 Ver detalhes
 
@@ -100,6 +111,42 @@ $characters = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
 </div>
+
+<script>
+
+const searchInput =
+    document.getElementById("searchInput");
+
+searchInput.addEventListener("keyup", function(){
+
+    const value =
+        this.value.toLowerCase();
+
+    const cards =
+        document.querySelectorAll(".character-card");
+
+    cards.forEach(card => {
+
+        const name =
+            card.querySelector(".character-name")
+                .innerText
+                .toLowerCase();
+
+        if(name.includes(value)){
+
+            card.style.display = "block";
+
+        } else {
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+});
+
+</script>
 
 </body>
 </html>

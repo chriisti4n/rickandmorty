@@ -199,6 +199,8 @@ function salvarPersonagem(){
     formData.append("image", "<?= $character['image'] ?>");
     formData.append("url", "<?= $character['url'] ?>");
 
+    showLoading();
+
     fetch("api/salvar.php", {
 
         method: "POST",
@@ -209,13 +211,13 @@ function salvarPersonagem(){
     .then(response => response.json())
 
     .then(data => {
-
-        alert(data.message);
+        hideLoading();
+        showToast(data.message);
 
     })
 
     .catch(error => {
-
+        hideLoading();
         console.error(error);
 
         alert("Erro ao salvar personagem.");
@@ -251,7 +253,7 @@ function deletarPersonagem(id){
 
     .then(data => {
 
-        alert(data.message);
+        showToast(data.message);
 
         if(data.success){
 
@@ -330,7 +332,7 @@ function salvarEdicao(id){
 
     .then(data => {
 
-        alert(data.message);
+        showToast(data.message);
 
         if(data.success){
 

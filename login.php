@@ -95,7 +95,7 @@ form.addEventListener("submit", function(event){
 
     .then(data => {
 
-        alert(data.message);
+        showToast(data.message);
 
         if(data.success){
 
