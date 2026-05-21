@@ -37,7 +37,7 @@
             </h1>
 
             <p class="lead text-light">
-                Analista de Suporte Jr • Desenvolvedor Full Stack
+                Desenvolvedor Full Stack
             </p>
 
         </div>
@@ -49,16 +49,12 @@
         </h3>
 
         <p class="mt-3">
-            Analista de Suporte Jr atuando em Service Desk na área hospitalar,
-            com experiência em suporte técnico, atendimento a usuários,
-            análise e resolução de incidentes.
+            Desenvolvedor de software com foco em aplicações full stack e vivência em suporte a aplicações próprias e terceiras.
         </p>
 
         <p>
-            Formado em Análise e Desenvolvimento de Sistemas pela Facens,
-            possuo conhecimentos em desenvolvimento back-end e mobile
-            utilizando tecnologias como Java, Spring Boot, Firebase,
-            SQLite, PHP e JavaScript.
+            Formado em Análise e Desenvolvimento de Sistemas pela Facens, possuo conhecimento em Java, Spring Boot, Firebase, 
+            SQLite e PHP, participando do desenvolvimento de aplicações web e mobile voltadas para diferentes cenários e necessidades.
         </p>
 
         <p>
