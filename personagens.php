@@ -39,7 +39,7 @@ $characters = $stmt->fetchAll(PDO::FETCH_ASSOC);
           rel="stylesheet">
 
     <link rel="stylesheet"
-      href="assets/style.css">
+          href="assets/style.css">
 
 </head>
 
@@ -49,16 +49,24 @@ $characters = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="container mt-5">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
 
         <h1>
             Meus Personagens
         </h1>
 
-        <input type="text"
-               id="searchInput"
-               class="form-control w-25"
-               placeholder="Pesquisar personagem...">
+        <div class="search-box">
+
+            <i class="search-icon">
+                🔍
+            </i>
+
+            <input type="text"
+                   id="searchInput"
+                   class="search-input"
+                   placeholder="Pesquisar personagem...">
+
+        </div>
 
     </div>
 
