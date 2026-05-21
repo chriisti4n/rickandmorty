@@ -10,6 +10,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
+    <link rel="stylesheet"
+      href="assets/style.css">
+
 </head>
 
 <body class="bg-dark text-white">
@@ -23,11 +26,15 @@
         <h2>
             Personagens
         </h2>
+<
+        <div class="search-box">
 
-        <input type="text"
-               id="searchInput"
-               class="form-control w-25"
-               placeholder="Pesquisar personagem...">
+            <input type="text"
+            id="searchInput"
+            class="search-input"
+            placeholder="Pesquisar personagem...">
+
+        </div>
 
     </div>
 

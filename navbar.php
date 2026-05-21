@@ -1,9 +1,14 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-black shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
 
     <div class="container">
 
-        <a class="navbar-brand fw-bold" href="index.php">
-            Rick and Morty
+        <a class="navbar-brand" href="index.php">
+
+            <img src="assets/img/logo.png"
+                alt="Rick and Morty"
+                height="80"
+                class="d-inline-block align-text-top">
+
         </a>
 
         <button class="navbar-toggler"

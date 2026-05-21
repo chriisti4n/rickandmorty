@@ -1,0 +1,239 @@
+body{
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,0.75),
+            rgba(0,0,0,0.88)
+        ),
+        url("img/background.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
+    min-height: 100vh;
+
+    color: white;
+}
+
+.card{
+
+    backdrop-filter: blur(10px);
+
+    background: rgba(255,255,255,0.08) !important;
+
+    border: 1px solid rgba(255,255,255,0.08) !important;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.3s ease,
+        border 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.card:hover{
+
+    transform:
+        translateY(-8px)
+        scale(1.02);
+
+    border: 1px solid rgba(0,255,153,0.5) !important;
+
+    box-shadow:
+        0 0 5px rgba(0,255,153,0.5),
+        0 0 15px rgba(0,255,153,0.4),
+        0 0 25px rgba(0,255,153,0.3);
+}
+
+.card img{
+
+    transition:
+        transform 0.4s ease,
+        filter 0.4s ease;
+}
+
+.card:hover img{
+
+    filter:
+        brightness(1.05)
+        saturate(1.1);
+
+    transform: scale(1.03);
+}
+
+.navbar{
+
+    backdrop-filter: blur(10px);
+
+    background: rgba(0,0,0,0.65) !important;
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.navbar-brand img{
+
+    transition: 0.3s;
+}
+
+.navbar-brand img:hover{
+
+    filter: brightness(1.1);
+
+    transform: scale(1.03);
+}
+
+.nav-link{
+
+    transition: 0.3s;
+}
+
+.nav-link:hover{
+
+    color: #00ff99 !important;
+}
+
+.btn-primary{
+
+    background: #00b5ff;
+
+    border: none;
+
+    border-radius: 10px;
+
+    transition: 0.3s;
+}
+
+.btn-primary:hover{
+
+    background: #0095d4;
+
+    box-shadow:
+        0 0 10px rgba(0,181,255,0.5),
+        0 0 20px rgba(0,181,255,0.3);
+}
+
+.btn-success{
+
+    border-radius: 10px;
+}
+
+.btn-danger{
+
+    border-radius: 10px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5{
+
+    font-weight: bold;
+}
+
+.character-card img{
+
+    height: 320px;
+
+    object-fit: cover;
+}
+
+.search-box{
+
+    position: relative;
+
+    width: 320px;
+}
+
+.search-input{
+
+    width: 100%;
+
+    padding:
+        12px 20px 12px 50px;
+
+    border-radius: 50px;
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    background: rgba(0,0,0,0.45);
+
+    backdrop-filter: blur(10px);
+
+    color: white;
+
+    outline: none;
+
+    transition: 0.3s;
+
+    box-shadow: none;
+}
+
+.search-input::placeholder{
+
+    color: rgba(255,255,255,0.5);
+}
+
+.search-input:focus{
+
+    border: 1px solid #00ff99;
+
+    background: rgba(0,0,0,0.65);
+
+    box-shadow:
+        0 0 5px rgba(0,255,153,0.5),
+        0 0 15px rgba(0,255,153,0.4),
+        0 0 25px rgba(0,255,153,0.3);
+}
+
+.search-icon{
+
+    position: absolute;
+
+    left: 18px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: rgba(255,255,255,0.5);
+
+    font-size: 18px;
+
+    transition: 0.3s;
+}
+
+.toast{
+
+    border-radius: 12px !important;
+}
+
+#loadingOverlay{
+
+    backdrop-filter: blur(4px);
+}
+
+::-webkit-scrollbar{
+
+    width: 10px;
+}
+
+::-webkit-scrollbar-track{
+
+    background: rgba(0,0,0,0.5);
+}
+
+::-webkit-scrollbar-thumb{
+
+    background: rgba(0,255,153,0.5);
+
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background: rgba(0,255,153,0.8);
+}
