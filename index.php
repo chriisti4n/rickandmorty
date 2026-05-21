@@ -26,7 +26,7 @@
         <h2>
             Personagens
         </h2>
-<
+
         <div class="search-box">
 
             <input type="text"
